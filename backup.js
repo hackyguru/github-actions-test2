@@ -6,3 +6,4 @@ async function main() {
 
   const cid = uploadResponse.data.Hash;
   console.log(`Uploaded to IPFS : ${cid}`);
+}
