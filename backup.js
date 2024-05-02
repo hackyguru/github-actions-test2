@@ -6,4 +6,10 @@ async function main() {
 
   const cid = uploadResponse.data.Hash;
   console.log(`Uploaded to IPFS : ${cid}`);
+  process.stdout.write(`::set-output name=cid::${cid}`);
 }
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
