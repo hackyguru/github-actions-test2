@@ -24,7 +24,7 @@ jobs:
 
     - name: Upload to Lighthouse.storage
       run: |
-        npm install @lighthouse-web3/sdk
+        npm install @lighthouse-web3/sdk archiver
         node backup.js
 
     - name: Store CID
