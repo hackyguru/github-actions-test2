@@ -36,6 +36,8 @@ jobs:
           API_URL=$(echo "$API_URL" | sed 's#/$##')
           # Force HTTPS
           API_URL=$(echo "$API_URL" | sed 's#^http://#https://#')
+          # Set curl timeout in seconds
+          CURL_TIMEOUT=300
           
           echo "API URL: $API_URL"
           
@@ -63,7 +65,7 @@ jobs:
             while [ $success = false ] && [ $retry_count -lt $MAX_RETRIES ]; do
               echo "Uploading chunk $CHUNK_NUM of $TOTAL_CHUNKS (Attempt $((retry_count + 1)))"
               
-              RESPONSE=$(curl --max-time $CURL_TIMEOUT -X POST \
+              RESPONSE=$(curl --max-time "$CURL_TIMEOUT" -X POST \
                 -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                 -H "X-GitHub-Repository: ${{ github.repository }}" \
                 -H "X-Upload-Id: ${{ env.UPLOAD_ID }}" \
@@ -113,7 +115,7 @@ jobs:
           while [ $success = false ] && [ $retry_count -lt $MAX_RETRIES ]; do
             echo "Completing upload (Attempt $((retry_count + 1)))"
             
-            COMPLETE_RESPONSE=$(curl --max-time $CURL_TIMEOUT -X POST \
+            COMPLETE_RESPONSE=$(curl --max-time "$CURL_TIMEOUT" -X POST \
               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
               -H "Content-Type: application/json" \
               -H "X-GitHub-Repository: ${{ github.repository }}" \
